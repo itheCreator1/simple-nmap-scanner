@@ -1,0 +1,757 @@
+{
+  "nselib_modules": [
+    {
+      "name": "afp",
+      "description": "Library for facilitating communication with the Apple AFP Service",
+      "service_name": "afp",
+      "common_ports": [
+        548
+      ]
+    },
+    {
+      "name": "ajp",
+      "description": "A basic AJP 1.3 implementation based on Apache mod_proxy_ajp documentation",
+      "service_name": "ajp",
+      "common_ports": [
+        8009
+      ]
+    },
+    {
+      "name": "amqp",
+      "description": "Provides basic functionality for retrieving information about an AMQP server's properties",
+      "service_name": "amqp",
+      "common_ports": [
+        5672
+      ]
+    },
+    {
+      "name": "anyconnect",
+      "description": "Implements HTTP requests used by the Cisco AnyConnect VPN Client",
+      "service_name": "https",
+      "common_ports": [
+        443,
+        8443
+      ]
+    },
+    {
+      "name": "bitcoin",
+      "description": "Implements a minimal subset of the BitCoin protocol including version handshake and Addr responses",
+      "service_name": "bitcoin",
+      "common_ports": [
+        8333,
+        18333
+      ]
+    },
+    {
+      "name": "bittorrent",
+      "description": "BitTorrent and DHT protocol library for reading torrent files and discovering peers",
+      "service_name": "bittorrent",
+      "common_ports": [
+        6881,
+        6882,
+        6883,
+        6884,
+        6885,
+        6886,
+        6887,
+        6888,
+        6889
+      ]
+    },
+    {
+      "name": "bjnp",
+      "description": "Implementation of the Canon BJNP protocol for discovering and querying Canon network printers and scanner devices",
+      "service_name": "bjnp",
+      "common_ports": [
+        8612
+      ]
+    },
+    {
+      "name": "cassandra",
+      "description": "Library methods for handling Cassandra Thrift communication as a client",
+      "service_name": "cassandra",
+      "common_ports": [
+        9042,
+        9160
+      ]
+    },
+    {
+      "name": "citrixxml",
+      "description": "Facilitates communication with the Citrix XML Service",
+      "service_name": "http",
+      "common_ports": [
+        80,
+        443,
+        8080,
+        8443
+      ]
+    },
+    {
+      "name": "coap",
+      "description": "An implementation of CoAP (RFC 7252)",
+      "service_name": "coap",
+      "common_ports": [
+        5683,
+        5684
+      ]
+    },
+    {
+      "name": "cvs",
+      "description": "Minimal CVS pserver protocol implementation supporting authentication",
+      "service_name": "cvs",
+      "common_ports": [
+        2401
+      ]
+    },
+    {
+      "name": "dhcp",
+      "description": "Implements a Dynamic Host Configuration Protocol (DHCP) client",
+      "service_name": "dhcp",
+      "common_ports": [
+        67,
+        68
+      ]
+    },
+    {
+      "name": "dhcp6",
+      "description": "Minimalistic DHCP6 implementation supporting basic DHCP6 Solicit requests",
+      "service_name": "dhcpv6",
+      "common_ports": [
+        546,
+        547
+      ]
+    },
+    {
+      "name": "dicom",
+      "description": "DICOM library for medical imaging protocol",
+      "service_name": "dicom",
+      "common_ports": [
+        104,
+        2345
+      ]
+    },
+    {
+      "name": "dns",
+      "description": "Simple DNS library supporting packet creation, encoding, decoding, and querying",
+      "service_name": "domain",
+      "common_ports": [
+        53
+      ]
+    },
+    {
+      "name": "dnsbl",
+      "description": "Minimalistic DNS BlackList library for querying various DNSBL services",
+      "service_name": "domain",
+      "common_ports": [
+        53
+      ]
+    },
+    {
+      "name": "dnssd",
+      "description": "Library for supporting DNS Service Discovery",
+      "service_name": "dnssd",
+      "common_ports": [
+        5353
+      ]
+    },
+    {
+      "name": "drda",
+      "description": "DRDA Library supporting a limited subset of IBM DB2 operations",
+      "service_name": "drda",
+      "common_ports": [
+        50000
+      ]
+    },
+    {
+      "name": "eap",
+      "description": "EAP (Extensible Authentication Protocol) library supporting a limited subset of features",
+      "service_name": "eap",
+      "common_ports": []
+    },
+    {
+      "name": "eigrp",
+      "description": "Library supporting parsing and generating a limited subset of Cisco EIGRP packets",
+      "service_name": "eigrp",
+      "common_ports": []
+    },
+    {
+      "name": "ftp",
+      "description": "FTP protocol functions",
+      "service_name": "ftp",
+      "common_ports": [
+        21
+      ]
+    },
+    {
+      "name": "giop",
+      "description": "GIOP Library supporting a limited subset of CORBA operations",
+      "service_name": "giop",
+      "common_ports": [
+        3528
+      ]
+    },
+    {
+      "name": "http",
+      "description": "Implements the HTTP client protocol for Nmap scripts",
+      "service_name": "http",
+      "common_ports": [
+        80,
+        8080,
+        8000,
+        8888
+      ]
+    },
+    {
+      "name": "httpspider",
+      "description": "Basic spidering and web crawling capabilities for HTTP",
+      "service_name": "http",
+      "common_ports": [
+        80,
+        8080,
+        8000,
+        8888
+      ]
+    },
+    {
+      "name": "iax2",
+      "description": "Minimalistic Asterisk IAX2 VoIP protocol implementation for brute force password guessing",
+      "service_name": "iax2",
+      "common_ports": [
+        4569
+      ]
+    },
+    {
+      "name": "idna",
+      "description": "Library methods for handling IDNA (Internationalized Domain Names in Applications) domains",
+      "service_name": "domain",
+      "common_ports": [
+        53
+      ]
+    },
+    {
+      "name": "ike",
+      "description": "Very basic IKE (Internet Key Exchange) library",
+      "service_name": "ike",
+      "common_ports": [
+        500,
+        4500
+      ]
+    },
+    {
+      "name": "imap",
+      "description": "Library implementing minor subset of IMAP protocol including CAPABILITY, LOGIN and AUTHENTICATE",
+      "service_name": "imap",
+      "common_ports": [
+        143,
+        993
+      ]
+    },
+    {
+      "name": "informix",
+      "description": "Informix Library supporting a limited subset of Informix database operations",
+      "service_name": "informix",
+      "common_ports": [
+        9088
+      ]
+    },
+    {
+      "name": "ipmi",
+      "description": "Module implementing IPMI protocol",
+      "service_name": "ipmi",
+      "common_ports": [
+        623
+      ]
+    },
+    {
+      "name": "ipp",
+      "description": "Small CUPS ipp (Internet Printing Protocol) library implementation",
+      "service_name": "ipp",
+      "common_ports": [
+        631
+      ]
+    },
+    {
+      "name": "irc",
+      "description": "IRC (Internet Relay Chat) protocol functions",
+      "service_name": "irc",
+      "common_ports": [
+        6667,
+        6668,
+        6669
+      ]
+    },
+    {
+      "name": "iscsi",
+      "description": "iSCSI library supporting target discovery and login",
+      "service_name": "iscsi",
+      "common_ports": [
+        3260
+      ]
+    },
+    {
+      "name": "isns",
+      "description": "Minimal Internet Storage Name Service (iSNS) implementation",
+      "service_name": "isns",
+      "common_ports": [
+        3205
+      ]
+    },
+    {
+      "name": "jdwp",
+      "description": "JDWP (Java Debug Wire Protocol) library for remote debugging and Java bytecode injection",
+      "service_name": "jdwp",
+      "common_ports": [
+        5005
+      ]
+    },
+    {
+      "name": "knx",
+      "description": "Functions for communicating with Konnex (KNX) home automation devices",
+      "service_name": "knx",
+      "common_ports": [
+        3671
+      ]
+    },
+    {
+      "name": "ldap",
+      "description": "Library methods for handling LDAP protocol",
+      "service_name": "ldap",
+      "common_ports": [
+        389,
+        636
+      ]
+    },
+    {
+      "name": "membase",
+      "description": "Implementation of the Couchbase Membase TAP protocol",
+      "service_name": "membase",
+      "common_ports": [
+        8091,
+        8092
+      ]
+    },
+    {
+      "name": "mobileme",
+      "description": "MobileMe web service client for discovering Apple devices using find my iPhone functionality",
+      "service_name": "https",
+      "common_ports": [
+        443
+      ]
+    },
+    {
+      "name": "mongodb",
+      "description": "Library methods for handling MongoDB protocol and creating/parsing packets",
+      "service_name": "mongodb",
+      "common_ports": [
+        27017,
+        27018,
+        27019
+      ]
+    },
+    {
+      "name": "mqtt",
+      "description": "Implementation of MQTT 3.1.1",
+      "service_name": "mqtt",
+      "common_ports": [
+        1883,
+        8883
+      ]
+    },
+    {
+      "name": "msrpc",
+      "description": "Calls various MSRPC functions accessible over TCP ports 445 and 139 with established session",
+      "service_name": "msrpc",
+      "common_ports": [
+        135,
+        445,
+        139
+      ]
+    },
+    {
+      "name": "msrpcperformance",
+      "description": "Designed to parse the PERF_DATA_BLOCK structure from registry HKEY_PERFORMANCE_DATA",
+      "service_name": "msrpc",
+      "common_ports": [
+        135,
+        445,
+        139
+      ]
+    },
+    {
+      "name": "msrpctypes",
+      "description": "Marshalls parameters for Microsoft RPC calls based on Samba protocol documentation",
+      "service_name": "msrpc",
+      "common_ports": [
+        135,
+        445,
+        139
+      ]
+    },
+    {
+      "name": "mysql",
+      "description": "Simple MySQL Library supporting a limited subset of operations",
+      "service_name": "mysql",
+      "common_ports": [
+        3306
+      ]
+    },
+    {
+      "name": "natpmp",
+      "description": "Implements NAT Port Mapping Protocol (NAT-PMP) basics",
+      "service_name": "natpmp",
+      "common_ports": [
+        5351
+      ]
+    },
+    {
+      "name": "nbd",
+      "description": "Implementation of the Network Block Device protocol",
+      "service_name": "nbd",
+      "common_ports": [
+        10809
+      ]
+    },
+    {
+      "name": "ncp",
+      "description": "Tiny implementation of Netware Core Protocol present on Linux and Windows with Novell eDirectory",
+      "service_name": "ncp",
+      "common_ports": [
+        524
+      ]
+    },
+    {
+      "name": "ndmp",
+      "description": "Minimalistic NDMP (Network Data Management Protocol) library",
+      "service_name": "ndmp",
+      "common_ports": [
+        10000
+      ]
+    },
+    {
+      "name": "netbios",
+      "description": "Creates and parses NetBIOS traffic for sending NetBIOS name requests",
+      "service_name": "netbios-ssn",
+      "common_ports": [
+        137,
+        138,
+        139
+      ]
+    },
+    {
+      "name": "nrpc",
+      "description": "Minimalistic library to support Domino RPC protocol",
+      "service_name": "domino",
+      "common_ports": [
+        1352
+      ]
+    },
+    {
+      "name": "omp2",
+      "description": "Eases interaction with OpenVAS Manager servers using OMP (OpenVAS Management Protocol) version 2",
+      "service_name": "openvas",
+      "common_ports": [
+        9392
+      ]
+    },
+    {
+      "name": "ospf",
+      "description": "Limited OSPF library supporting IPv4 and message types HELLO, DB_DESCRIPTION, LS_REQUEST, LS_UPDATE",
+      "service_name": "ospf",
+      "common_ports": []
+    },
+    {
+      "name": "pop3",
+      "description": "POP3 (Post Office Protocol 3) functions",
+      "service_name": "pop3",
+      "common_ports": [
+        110,
+        995
+      ]
+    },
+    {
+      "name": "pppoe",
+      "description": "Minimalistic PPPoE library implementing basic support for PPPoE Discovery and Configuration requests",
+      "service_name": "pppoe",
+      "common_ports": []
+    },
+    {
+      "name": "proxy",
+      "description": "Functions for proxy testing",
+      "service_name": "http-proxy",
+      "common_ports": [
+        3128,
+        8080,
+        8888,
+        80
+      ]
+    },
+    {
+      "name": "rdp",
+      "description": "Minimal RDP library for determining encryption and cipher support",
+      "service_name": "ms-wbt-server",
+      "common_ports": [
+        3389
+      ]
+    },
+    {
+      "name": "redis",
+      "description": "Minimalistic Redis in-memory key-value data store library",
+      "service_name": "redis",
+      "common_ports": [
+        6379
+      ]
+    },
+    {
+      "name": "rmi",
+      "description": "Library method for communicating over RMI (JRMP + Java serialization)",
+      "service_name": "rmi-registry",
+      "common_ports": [
+        1099
+      ]
+    },
+    {
+      "name": "rpc",
+      "description": "RPC Library supporting a limited subset of Sun RPC operations",
+      "service_name": "rpcbind",
+      "common_ports": [
+        111
+      ]
+    },
+    {
+      "name": "rpcap",
+      "description": "Implements fundamentals for communicating with WinPcap Remote Capture Daemon with authentication",
+      "service_name": "rpcap",
+      "common_ports": [
+        2002
+      ]
+    },
+    {
+      "name": "rsync",
+      "description": "Minimalist RSYNC (remote file sync) library",
+      "service_name": "rsync",
+      "common_ports": [
+        873
+      ]
+    },
+    {
+      "name": "rtsp",
+      "description": "Real Time Streaming Protocol (RTSP) library implementing minimal protocol subset",
+      "service_name": "rtsp",
+      "common_ports": [
+        554,
+        8554
+      ]
+    },
+    {
+      "name": "sip",
+      "description": "SIP library supporting a limited subset of SIP commands and methods",
+      "service_name": "sip",
+      "common_ports": [
+        5060,
+        5061
+      ]
+    },
+    {
+      "name": "smb",
+      "description": "Implements functionality related to Server Message Block (SMB/CIFS) Windows protocol",
+      "service_name": "microsoft-ds",
+      "common_ports": [
+        139,
+        445
+      ]
+    },
+    {
+      "name": "smb2",
+      "description": "Implements Server Message Block (SMB) protocol version 2 and 3",
+      "service_name": "microsoft-ds",
+      "common_ports": [
+        445
+      ]
+    },
+    {
+      "name": "smbauth",
+      "description": "Handles authentication used in SMB including LM, NTLM, LMv2, and NTLMv2",
+      "service_name": "microsoft-ds",
+      "common_ports": [
+        139,
+        445
+      ]
+    },
+    {
+      "name": "smtp",
+      "description": "Simple Mail Transfer Protocol (SMTP) operations",
+      "service_name": "smtp",
+      "common_ports": [
+        25,
+        465,
+        587
+      ]
+    },
+    {
+      "name": "snmp",
+      "description": "SNMP (Simple Network Management Protocol) library",
+      "service_name": "snmp",
+      "common_ports": [
+        161,
+        162
+      ]
+    },
+    {
+      "name": "socks",
+      "description": "Smallish SOCKS version 5 proxy protocol implementation",
+      "service_name": "socks",
+      "common_ports": [
+        1080
+      ]
+    },
+    {
+      "name": "ssh1",
+      "description": "Functions for the SSH-1 protocol including key fingerprint formatting",
+      "service_name": "ssh",
+      "common_ports": [
+        22
+      ]
+    },
+    {
+      "name": "ssh2",
+      "description": "Functions for the SSH-2 protocol",
+      "service_name": "ssh",
+      "common_ports": [
+        22
+      ]
+    },
+    {
+      "name": "sslcert",
+      "description": "Library providing functions for collecting SSL certificates and storing in host-based registry",
+      "service_name": "ssl",
+      "common_ports": [
+        443,
+        636,
+        989,
+        990,
+        992,
+        993,
+        995
+      ]
+    },
+    {
+      "name": "sslv2",
+      "description": "Library providing functions for SSLv2 communications",
+      "service_name": "ssl",
+      "common_ports": [
+        443
+      ]
+    },
+    {
+      "name": "stun",
+      "description": "Implements basics of STUN protocol (Session Traversal Utilities for NAT) per RFC3489 and RFC5389",
+      "service_name": "stun",
+      "common_ports": [
+        3478,
+        3479
+      ]
+    },
+    {
+      "name": "srvloc",
+      "description": "Relatively small implementation of Service Location Protocol for discovering services",
+      "service_name": "srvloc",
+      "common_ports": [
+        427
+      ]
+    },
+    {
+      "name": "tftp",
+      "description": "Library implementing a minimal TFTP (Trivial File Transfer Protocol) server",
+      "service_name": "tftp",
+      "common_ports": [
+        69
+      ]
+    },
+    {
+      "name": "tls",
+      "description": "Library providing functions for TLS/SSL communications",
+      "service_name": "ssl",
+      "common_ports": [
+        443
+      ]
+    },
+    {
+      "name": "tn3270",
+      "description": "TN3270 Emulator Library for terminal protocol",
+      "service_name": "tn3270",
+      "common_ports": [
+        23,
+        992
+      ]
+    },
+    {
+      "name": "tns",
+      "description": "TNS Library supporting a limited subset of Oracle database operations",
+      "service_name": "oracle-tns",
+      "common_ports": [
+        1521
+      ]
+    },
+    {
+      "name": "upnp",
+      "description": "UPNP library based on upnp-info code supporting multicast requests",
+      "service_name": "upnp",
+      "common_ports": [
+        1900
+      ]
+    },
+    {
+      "name": "versant",
+      "description": "Tiny library for basic information enumeration from Versant object database",
+      "service_name": "versant",
+      "common_ports": [
+        6583
+      ]
+    },
+    {
+      "name": "vnc",
+      "description": "Library providing basic functionality for communicating with VNC servers and derivatives",
+      "service_name": "vnc",
+      "common_ports": [
+        5900,
+        5901,
+        5902,
+        5903
+      ]
+    },
+    {
+      "name": "vuzedht",
+      "description": "Vuze DHT (Distributed Hash Table) protocol implementation",
+      "service_name": "vuze-dht",
+      "common_ports": [
+        6881,
+        6889
+      ]
+    },
+    {
+      "name": "wsdd",
+      "description": "Library for sending Web Service Dynamic Discovery probes and decoding responses",
+      "service_name": "wsdd",
+      "common_ports": [
+        3702
+      ]
+    },
+    {
+      "name": "xdmcp",
+      "description": "Implementation of XDMCP (X Display Manager Control Protocol)",
+      "service_name": "xdmcp",
+      "common_ports": [
+        177
+      ]
+    },
+    {
+      "name": "xmpp",
+      "description": "XMPP (Jabber) library implementing minimal subset for authentication brute-force",
+      "service_name": "xmpp",
+      "common_ports": [
+        5222,
+        5269
+      ]
+    }
+  ]
+}
