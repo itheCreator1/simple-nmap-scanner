@@ -10,7 +10,6 @@ echo "=== HOST DISCOVERY ==="
 host_output=$("${SCRIPT_DIR}/active_host_scan.sh")
 echo "$host_output"
 
-# Extract active host IPs - skip header and empty lines, handle whitespace
 active_hosts=$(echo "$host_output" | \
     grep -v "Active Hosts:" | \
     grep -v "IP.MAC.Vendor" | \
@@ -26,10 +25,9 @@ fi
 
 echo -e "\n=== PORT SCANNING ==="
 
-# Store all host:port combinations for service detection
 declare -a host_port_pairs=()
+declare -a host_port_service=()
 
-# Convert to array properly
 declare -a hosts_array=()
 while IFS= read -r line; do
     if [[ -n "$line" ]]; then
@@ -44,11 +42,9 @@ for host in "${hosts_array[@]}"; do
     
     echo -e "\nScanning $host..."
     
-    # Run port scan and capture output
     port_output=$("${SCRIPT_DIR}/active_port_scan.sh" "$host")
     echo "$port_output"
     
-    # Extract open ports - handle cases with no results
     ip_lines=$(echo "$port_output" | grep -E "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" || true)
     
     if [[ -z "$ip_lines" ]]; then
@@ -67,7 +63,6 @@ for host in "${hosts_array[@]}"; do
         port_count=$(echo "$open_ports" | wc -l)
         echo "Found $port_count open port(s) on $host"
         
-        # Convert ports to array and add to host_port_pairs
         declare -a ports_array=()
         while IFS= read -r port_line; do
             if [[ -n "$port_line" ]]; then
@@ -77,7 +72,9 @@ for host in "${hosts_array[@]}"; do
         
         for port in "${ports_array[@]}"; do
             if [[ -n "$port" ]]; then
+                service=$(echo "$open_lines" | grep -w "$port" | awk '{print $6}')
                 host_port_pairs+=("$host:$port")
+                host_port_service+=("$host:$port:$service")
             fi
         done
     else
@@ -94,6 +91,18 @@ else
         IFS=':' read -r host port <<< "$host_port"
         echo -e "\nPort ${host}:${port}"
         "${SCRIPT_DIR}/single_port_service_scan.sh" "$host" "$port"
+    done
+fi
+
+echo -e "\n=== NSE SCRIPT EXECUTION ==="
+if [[ ${#host_port_service[@]} -eq 0 ]]; then
+    echo "No services to scan with NSE scripts."
+else
+    echo "Running NSE scripts on ${#host_port_service[@]} service(s)..."
+    for entry in "${host_port_service[@]}"; do
+        IFS=':' read -r host port service <<< "$entry"
+        echo -e "\n--- NSE: ${host}:${port} (${service}) ---"
+        "${SCRIPT_DIR}/nse_runner.sh" "$host" "$port" "$service" | python3 "${SCRIPT_DIR}/nse_parser.py"
     done
 fi
 

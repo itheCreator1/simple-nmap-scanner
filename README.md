@@ -3,7 +3,7 @@
 A nmap basic scanner with features as:
 - Each component can be executed standalone
 - By default it scans the LAN it currently is
-- Used pandas to create parsers for each script so eyes dont hurt (u can use ccze for colored output)
+- Used pandas to create parsers for each script so eyes dont hurt 
 
 
 
