@@ -19,6 +19,8 @@ scripts_json=$(python3 nse_selector.py --service "$service_name" --port "$port" 
 script_names=$(echo "$scripts_json" | python3 -c "import sys, json; data = json.load(sys.stdin); print(','.join([s['script'] for s in data[:3]]))" 2>/dev/null)
 
 if [[ -z "$script_names" ]]; then
+    # Output minimal valid XML so parser doesn't complain
+    echo '<?xml version="1.0"?><nmaprun><host></host></nmaprun>'
     exit 0
 fi
 

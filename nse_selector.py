@@ -31,7 +31,6 @@ class NSESelector:
             'domain': ['dns-nsid', 'dns-recursion', 'dns-service-discovery'],
             'mysql': ['mysql-info', 'mysql-databases', 'mysql-users'],
             'postgresql': ['pgsql-databases'],
-            'cslistener': ['http-title', 'http-headers'],
             'microsoft-ds': ['smb-os-discovery', 'smb-protocols', 'smb-security-mode'],
             'netbios-ssn': ['smb-os-discovery', 'smb-protocols', 'smb-security-mode'],
             'pop3': ['pop3-capabilities', 'pop3-ntlm-info'],
@@ -53,6 +52,11 @@ class NSESelector:
             'rtsp': ['rtsp-methods', 'rtsp-url-brute'],
             'ipp': ['ipp-info'],
             'upnp': ['upnp-info'],
+            'cslistener': ['http-title', 'http-headers'],
+            'freeciv': [],
+            'oa-system': [],
+            'unknown': [],
+            'timeout': [],
         }
         
     def _load_nse_database(self) -> Dict:

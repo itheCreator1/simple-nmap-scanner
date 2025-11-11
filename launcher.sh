@@ -82,17 +82,17 @@ for host in "${hosts_array[@]}"; do
     fi
 done
 
-echo -e "\n=== SERVICE DETECTION ==="
-if [[ ${#host_port_pairs[@]} -eq 0 ]]; then
-    echo "No open ports found on any hosts. Service detection skipped."
-else
-    echo "Performing service detection on ${#host_port_pairs[@]} open port(s)..."
-    for host_port in "${host_port_pairs[@]}"; do
-        IFS=':' read -r host port <<< "$host_port"
-        echo -e "\nPort ${host}:${port}"
-        "${SCRIPT_DIR}/single_port_service_scan.sh" "$host" "$port"
-    done
-fi
+# echo -e "\n=== SERVICE DETECTION ==="
+# if [[ ${#host_port_pairs[@]} -eq 0 ]]; then
+#     echo "No open ports found on any hosts. Service detection skipped."
+# else
+#     echo "Performing service detection on ${#host_port_pairs[@]} open port(s)..."
+#     for host_port in "${host_port_pairs[@]}"; do
+#         IFS=':' read -r host port <<< "$host_port"
+#         echo -e "\nPort ${host}:${port}"
+#         "${SCRIPT_DIR}/single_port_service_scan.sh" "$host" "$port"
+#     done
+# fi
 
 echo -e "\n=== NSE SCRIPT EXECUTION ==="
 if [[ ${#host_port_service[@]} -eq 0 ]]; then
