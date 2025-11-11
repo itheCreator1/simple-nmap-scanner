@@ -1,6 +1,11 @@
 # simple-nmap-scanner
 
-Network scanning toolkit with automated discovery, port scanning, and service detection.
+A nmap basic scanner with features as:
+- Each component can be executed standalone
+- By default it scans the LAN it currently is
+- Used pandas to create parsers for each script so eyes dont hurt (u can use ccze for colored output)
+
+
 
 ## Usage
 
@@ -12,7 +17,6 @@ Network scanning toolkit with automated discovery, port scanning, and service de
 ./active_host_scan.sh [network]
 ./active_port_scan.sh [target]
 ./single_port_service_scan.sh [ip] [port]
-./http_info_scan.sh [ip]
 ```
 
 ## Files
@@ -22,7 +26,7 @@ Network scanning toolkit with automated discovery, port scanning, and service de
 - `active_host_scan.sh` + `active_host_parser.py` - Host discovery
 - `active_port_scan.sh` + `active_port_parser.py` - Port scanning  
 - `single_port_service_scan.sh` + `single_port_service_scan_parser.py` - Service detection
-- `http_info_scan.sh` + `http_info_parser.py` - HTTP enumeration
+
 
 ## Setup
 
