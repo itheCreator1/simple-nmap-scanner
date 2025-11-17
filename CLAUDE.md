@@ -24,8 +24,11 @@
 
 ```
 simple-nmap-scanner/
+├── setup.sh                             # Automated setup script
+├── requirements.txt                     # Python dependencies
 ├── launcher.sh                          # Main orchestrator script
 ├── launcher_parser.py                   # Real-time comprehensive parser
+├── common_parser.py                     # Shared XML parsing utilities
 ├── active_host_scan.sh                  # Host discovery component
 ├── active_host_parser.py                # Host discovery XML parser
 ├── active_port_scan.sh                  # Port scanning component
@@ -45,11 +48,13 @@ simple-nmap-scanner/
 
 ### Component Categories
 
-1. **Orchestration**: `launcher.sh`, `launcher_parser.py`
-2. **Host Discovery**: `active_host_scan.sh`, `active_host_parser.py`
-3. **Port Scanning**: `active_port_scan.sh`, `active_port_parser.py`
-4. **NSE Execution**: `nse_runner.sh`, `nse_selector.py`, `nse_parser.py`
-5. **Resources**: `extra/nse_scripts.json`
+1. **Setup & Dependencies**: `setup.sh`, `requirements.txt`
+2. **Shared Utilities**: `common_parser.py`
+3. **Orchestration**: `launcher.sh`, `launcher_parser.py`
+4. **Host Discovery**: `active_host_scan.sh`, `active_host_parser.py`
+5. **Port Scanning**: `active_port_scan.sh`, `active_port_parser.py`
+6. **NSE Execution**: `nse_runner.sh`, `nse_selector.py`, `nse_parser.py`
+7. **Resources**: `extra/nse_scripts.json`
 
 ---
 
@@ -84,10 +89,18 @@ Each component can run standalone:
 **Pattern**: Shell script → Nmap XML output (`-oX -`) → Python XML parser → Formatted output
 
 All parsers follow this structure:
-- Read XML from stdin (`sys.stdin.read()`)
-- Parse with `xml.etree.ElementTree`
+- Import `common_parser` utilities for error handling
+- Read and parse XML using `read_and_parse_xml()` with automatic error handling
+- Use `safe_get_attrib()` for safe attribute extraction
 - Extract data into structured format
 - Output formatted results (pandas DataFrames or custom formatting)
+
+**Shared Utilities (common_parser.py)**:
+- `read_and_parse_xml()`: Safely reads and parses XML from stdin with detailed error messages
+- `safe_get_attrib()`: Safely extracts attributes with default fallback values
+- `safe_find()` / `safe_find_text()`: Safely finds elements without exceptions
+- `has_valid_ports()`: Checks if XML contains port data
+- Error handling provides helpful diagnostics for common issues (permissions, timeouts, etc.)
 
 ---
 
@@ -100,20 +113,23 @@ All parsers follow this structure:
 git clone <repository-url>
 cd simple-nmap-scanner
 
-# 2. Create virtual environment
+# 2. Run automated setup (recommended)
+./setup.sh
+
+# This will:
+# - Check Python 3 installation
+# - Check nmap installation (provides install instructions if missing)
+# - Create virtual environment (.venv)
+# - Install dependencies (pandas)
+# - Make all scripts executable
+```
+
+**Manual setup (alternative)**:
+```bash
 python3 -m venv .venv
-
-# 3. Activate virtual environment
 source .venv/bin/activate
-
-# 4. Install dependencies
-pip install pandas
-
-# 5. Make scripts executable
+pip install -r requirements.txt
 chmod +x *.sh
-
-# 6. Update venv path in scripts if needed
-# Edit .sh files to match your .venv location
 ```
 
 ### Running Full Scan
@@ -149,12 +165,33 @@ python3 nse_selector.py --service http --port 80
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail  # Exit on error, undefined vars, pipe failures
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VENV_PATH="${SCRIPT_DIR}/.venv"
+```
+
+#### Validation Checks
+All scripts validate environment before execution:
+```bash
+# Check if virtual environment exists
+if [[ ! -f "${VENV_PATH}/bin/activate" ]]; then
+    echo "ERROR: Virtual environment not found at ${VENV_PATH}" >&2
+    echo "Run: ./setup.sh" >&2
+    exit 1
+fi
+
+# Check if nmap is installed
+if ! command -v nmap &> /dev/null; then
+    echo "ERROR: nmap is not installed" >&2
+    echo "Run: ./setup.sh (it will show install instructions)" >&2
+    exit 1
+fi
 ```
 
 #### Virtual Environment Activation
-All scripts activate the Python venv:
+All scripts activate the Python venv after validation:
 ```bash
-source .venv/bin/activate
+source "${VENV_PATH}/bin/activate"
 ```
 
 #### Error Handling in nse_runner.sh
@@ -181,20 +218,26 @@ Usage examples and documentation
 """
 
 import sys
-import xml.etree.ElementTree as ET
 import pandas as pd  # For tabular parsers
+from common_parser import read_and_parse_xml, safe_get_attrib
 
-# Read XML from stdin
-xml_string = sys.stdin.read()
-root = ET.fromstring(xml_string)
+# Read and parse XML with error handling
+root = read_and_parse_xml()
+if root is None:
+    sys.exit(1)
 
 # Parse and extract data
 data = []
 for element in root.findall('xpath'):
-    # Extract information
+    # Extract information using safe functions
+    value = safe_get_attrib(element, 'attribute', 'default')
     data.append({...})
 
 # Format and output
+if not data:
+    print("No results found.")
+else:
+    # Display results
 ```
 
 #### Parser Patterns
@@ -315,22 +358,83 @@ declare -a host_port_service=()    # Array of "ip:port:service"
 ## Dependencies and Environment
 
 ### Python Dependencies
-- **pandas**: DataFrame creation and tabular output
+Managed via `requirements.txt`:
+- **pandas==2.1.4**: DataFrame creation and tabular output
   - Used in: `active_host_parser.py`, `active_port_parser.py`, `single_port_service_scan_parser.py`
 
 ### System Requirements
-- **Nmap**: Network scanner
-- **Python 3**: Parser scripts
+- **Nmap**: Network scanner (checked by setup.sh)
+- **Python 3**: Parser scripts (checked by setup.sh)
 - **Bash**: Shell scripts
 - **Standard Linux utilities**: grep, awk, sed, sort
 
 ### Virtual Environment
-All bash scripts expect `.venv` in script directory:
+All bash scripts use dynamic path resolution:
 ```bash
-source .venv/bin/activate
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VENV_PATH="${SCRIPT_DIR}/.venv"
+source "${VENV_PATH}/bin/activate"
 ```
 
-**Customization**: Update `source .venv/bin/activate` lines if using different venv location.
+**Setup**: Run `./setup.sh` to automatically configure the environment.
+
+---
+
+## Error Handling and Validation
+
+### Shell Script Validation
+
+All shell scripts perform pre-flight checks before execution:
+
+**Environment Validation**:
+```bash
+# Check virtual environment exists
+if [[ ! -f "${VENV_PATH}/bin/activate" ]]; then
+    echo "ERROR: Virtual environment not found" >&2
+    echo "Run: ./setup.sh" >&2
+    exit 1
+fi
+
+# Check nmap is installed
+if ! command -v nmap &> /dev/null; then
+    echo "ERROR: nmap is not installed" >&2
+    exit 1
+fi
+```
+
+### Python Parser Error Handling
+
+**common_parser.py** provides centralized error handling:
+
+**XML Parsing Errors**:
+- Empty input detection with diagnostic messages
+- Parse error handling with common causes (permissions, timeouts, interruptions)
+- Helpful suggestions for resolution
+
+**Safe Attribute Extraction**:
+```python
+# Instead of: element.attrib.get('key')
+# Use: safe_get_attrib(element, 'key', 'default')
+```
+
+**Error Messages Include**:
+- Specific error type and description
+- Possible causes (permissions, timeouts, network issues)
+- Actionable suggestions (run with sudo, increase timeouts)
+
+### Setup Script (setup.sh)
+
+**Automated environment validation**:
+1. Checks Python 3 installation
+2. Checks nmap installation (provides OS-specific install commands)
+3. Creates virtual environment if missing
+4. Installs dependencies from requirements.txt
+5. Makes all scripts executable
+
+**Error handling**:
+- Exits with clear error messages if dependencies missing
+- Provides platform-specific installation instructions
+- Idempotent (safe to run multiple times)
 
 ---
 
@@ -338,12 +442,26 @@ source .venv/bin/activate
 
 ### Important Code Locations
 
+**setup.sh**:
+- Lines 6-11: Python installation check
+- Lines 13-23: Nmap installation check with OS-specific instructions
+- Lines 26-31: Virtual environment creation
+- Lines 34-38: Dependency installation
+- Lines 41-44: Make scripts executable
+
+**common_parser.py**:
+- Lines 17-60: read_and_parse_xml() with error handling
+- Lines 63-72: safe_get_attrib() helper
+- Lines 75-84: safe_find_text() helper
+- Lines 87-95: safe_find() helper
+- Lines 98-107: has_valid_ports() validator
+
 **launcher.sh**:
-- Lines 9-11: Host discovery execution
-- Lines 13-19: Active host extraction
-- Lines 28-83: Port scanning loop
-- Lines 97-107: NSE execution loop
-- Lines 85-95: Commented out service detection (deprecated)
+- Lines 10-22: Environment validation checks
+- Lines 24-26: Host discovery execution
+- Lines 28-34: Active host extraction
+- Lines 53-98: Port scanning loop
+- Lines 100-109: NSE execution loop
 
 **launcher_parser.py**:
 - Lines 32-43: Color setup with TTY detection
@@ -559,17 +677,30 @@ python3 nse_selector.py --service http --port 80
 
 ### Error Messages
 
+**"ERROR: Virtual environment not found"**:
+- Run: `./setup.sh` to create and configure environment
+- Or manually: `python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt`
+
+**"ERROR: nmap is not installed"**:
+- Run: `./setup.sh` to see OS-specific installation instructions
+- Debian/Ubuntu: `sudo apt install nmap`
+- Fedora: `sudo dnf install nmap`
+- macOS: `brew install nmap`
+
+**"ERROR: No XML input received"**:
+- Nmap command may have failed
+- Check piping in shell script
+- Run nmap command directly to debug
+
+**"ERROR: Invalid XML from nmap"**:
+- Nmap was interrupted (Ctrl+C or timeout)
+- Insufficient permissions (try sudo)
+- Network timeout occurred
+
 **"No active hosts found"**:
 - Check network connectivity
 - Verify CIDR notation
 - Try with sudo if needed
-
-**"ImportError: No module named 'pandas'"**:
-- Activate venv: `source .venv/bin/activate`
-- Install pandas: `pip install pandas`
-
-**"nmap: command not found"**:
-- Install nmap: `sudo apt install nmap` (Debian/Ubuntu)
 
 ---
 
@@ -614,9 +745,11 @@ python3 nse_selector.py --service http --port 80
 
 - Does this maintain component independence?
 - Will the XML output format change?
-- Do parsers need updating?
-- Is error handling adequate?
+- Do parsers need updating to use common_parser functions?
+- Are environment validation checks in place?
+- Is error handling adequate with helpful messages?
 - Have you tested with edge cases (no hosts, no ports, timeouts)?
+- Does the change require updating setup.sh or requirements.txt?
 
 ---
 
@@ -662,6 +795,9 @@ python3 nse_selector.py --service http --port 80
 
 ### Common Commands
 ```bash
+# Setup (first time)
+./setup.sh
+
 # Full scan
 ./launcher.sh | python3 launcher_parser.py
 
@@ -670,10 +806,10 @@ python3 nse_selector.py --service http --port 80
 ./active_port_scan.sh [target]
 ./nse_runner.sh [ip] [port] [service] | python3 nse_parser.py
 
-# Setup
+# Manual setup (alternative)
 python3 -m venv .venv
 source .venv/bin/activate
-pip install pandas
+pip install -r requirements.txt
 chmod +x *.sh
 ```
 

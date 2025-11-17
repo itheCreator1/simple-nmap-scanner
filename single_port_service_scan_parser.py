@@ -18,45 +18,38 @@ Usage:
 
 import sys
 import pandas as pd
-import xml.etree.ElementTree as ET
+from common_parser import read_and_parse_xml, safe_get_attrib
 
-xml_string = sys.stdin.read()
-if not xml_string.strip():
-    print("No XML input detected. Did you forget to pipe Nmap output?")
-    sys.exit(1)
-
-try:
-    root = ET.fromstring(xml_string)
-except ET.ParseError as e:
-    print(f"Error parsing XML: {e}")
+# Read and parse XML with error handling
+root = read_and_parse_xml()
+if root is None:
     sys.exit(1)
 
 data = []
 
 for host in root.findall('host'):
     ip_elem = host.find('address[@addrtype="ipv4"]')
-    ip = ip_elem.attrib.get('addr') if ip_elem is not None else "N/A"
+    ip = safe_get_attrib(ip_elem, 'addr', 'N/A')
 
     # Check if ports element exists
     ports_elem = host.find('ports')
     if ports_elem is None:
-        print(f"No ports found for host {ip}")
         continue
 
     for port in ports_elem.findall('port'):
-        portid = int(port.attrib.get('portid'))
-        protocol = port.attrib.get('protocol')
-        
+        portid = int(port.attrib.get('portid', 0))
+        protocol = safe_get_attrib(port, 'protocol', 'tcp')
+
         state_elem = port.find('state')
         if state_elem is None:
             continue
-        state = state_elem.attrib.get('state')
+        state = safe_get_attrib(state_elem, 'state', 'unknown')
 
         service_elem = port.find('service')
-        service = service_elem.attrib.get('name', 'unknown') if service_elem is not None else 'unknown'
-        product = service_elem.attrib.get('product', '') if service_elem is not None else ''
-        version = service_elem.attrib.get('version', '') if service_elem is not None else ''
-        extrainfo = service_elem.attrib.get('extrainfo', '') if service_elem is not None else ''
+        service = safe_get_attrib(service_elem, 'name', 'unknown')
+        product = safe_get_attrib(service_elem, 'product', '')
+        version = safe_get_attrib(service_elem, 'version', '')
+        extrainfo = safe_get_attrib(service_elem, 'extrainfo', '')
 
         # Compose a fingerprint string from product/version/extrainfo
         fingerprint = " ".join(filter(None, [product, version, extrainfo])) or "—"
@@ -71,10 +64,11 @@ for host in root.findall('host'):
         })
 
 # Output results
-df = pd.DataFrame(data)
-if df.empty:
+print("Service Version Detection Result:\n")
+
+if not data:
     print("No scan results found.")
 else:
+    df = pd.DataFrame(data)
     df = df.sort_values(by="Port")
-    print("Service Version Detection Result:\n")
     print(df.to_string(index=False))
